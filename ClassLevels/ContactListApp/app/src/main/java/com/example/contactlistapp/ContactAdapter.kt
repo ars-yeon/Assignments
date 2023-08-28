@@ -1,13 +1,20 @@
 package com.example.contactlistapp
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactlistapp.databinding.ContactItemBinding
+import android.Manifest
+
+private val CALL_PERMISSION_REQUEST_CODE = 1
 
 class ContactAdapter(private val mItems: List<Contact>, internal val context: Context) :
     RecyclerView.Adapter<ContactAdapter.Holder>() {
@@ -39,7 +46,22 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
 
             val phoneNumber = item.aTel // 해당 위치의 전화번호 가져오기
             val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
-            context.startActivity(dialIntent)  // 전화 걸기 동작 수행
+            // 권한이 있는지 확인
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.CALL_PHONE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // 이미 권한이 허용된 경우 바로 전화 걸기 동작 수행
+                context.startActivity(dialIntent)
+            } else {
+                // 권한이 없는 경우 권한 요청
+                ActivityCompat.requestPermissions(
+                    context as Activity, // 주의: context가 Activity 타입이어야 합니다.
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    CALL_PERMISSION_REQUEST_CODE
+                )
+            }
         }
 
         // 즐겨찾기 아이콘 클릭 이벤트 처리
