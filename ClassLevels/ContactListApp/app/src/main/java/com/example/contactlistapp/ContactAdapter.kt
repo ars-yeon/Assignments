@@ -49,7 +49,7 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
     }
 
     // 뷰 홀더 클래스
-    inner class Holder(val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Holder(binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val img = binding.imgItem // 프로필 이미지 뷰
         val name = binding.nameItem // 이름 텍스트뷰
         val tel = binding.telItem // 전화번호 텍스트뷰
