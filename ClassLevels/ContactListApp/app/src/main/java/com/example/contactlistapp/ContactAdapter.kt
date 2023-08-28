@@ -41,6 +41,19 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
             val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
             context.startActivity(dialIntent)  // 전화 걸기 동작 수행
         }
+
+        // 즐겨찾기 아이콘 클릭 이벤트 처리
+        holder.favorite.setOnClickListener {
+            item.aFavorite = !item.aFavorite
+            notifyItemChanged(position)
+        }
+
+        // 즐겨찾기 상태에 따라 아이콘 변경
+        if (item.aFavorite) {
+            holder.favorite.setImageResource(R.drawable.ic_star_filled)
+        } else {
+            holder.favorite.setImageResource(R.drawable.ic_star_empty)
+        }
     }
 
     // 아이템 개수 반환
