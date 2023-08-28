@@ -41,7 +41,7 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
         holder.tel.text = item.aTel // 전화번호 설정
 
         // 아이템 뷰 클릭 이벤트 처리
-        holder.itemView.setOnClickListener {
+        holder.call.setOnClickListener {
             itemClick?.onClick(it, position) // 아이템 클릭 리스너 호출
 
             val phoneNumber = item.aTel // 해당 위치의 전화번호 가져오기
@@ -88,6 +88,7 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
         val img = binding.imgItem // 프로필 이미지 뷰
         val name = binding.nameItem // 이름 텍스트뷰
         val tel = binding.telItem // 전화번호 텍스트뷰
+        val call = binding.callItem // 전화 아이콘 이미지뷰
         val favorite = binding.favoriteItem // 즐겨찾기 아이콘 이미지뷰
     }
 }
