@@ -50,6 +50,17 @@
     </LinearLayout>
 
     <ImageButton
+        android:id="@+id/callItem"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:padding="@dimen/item_padding"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_call" />
+
+
+    <ImageButton
         android:id="@+id/favoriteItem"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
