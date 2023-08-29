@@ -11,18 +11,39 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.contactlistapp.databinding.ContactItemBinding
 import android.Manifest
-
-private val CALL_PERMISSION_REQUEST_CODE = 1
+import com.bumptech.glide.Glide
+import com.example.contactlistapp.databinding.ContactItemAfBinding
+import com.example.contactlistapp.databinding.ContactItemBfBinding
 
 class ContactAdapter(private val mItems: List<Contact>, internal val context: Context) :
-    RecyclerView.Adapter<ContactAdapter.Holder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val CALL_PERMISSION_REQUEST_CODE = 1
+    private val VIEW_TYPE_NORMAL = 0
+    private val VIEW_TYPE_FAVORITE = 1
+
+    override fun getItemViewType(position: Int): Int {
+        val contact = mItems[position]
+        return if (contact.aFavorite) {
+            VIEW_TYPE_FAVORITE // 즐겨찾기된 아이템
+        } else {
+            VIEW_TYPE_NORMAL // 일반 아이템
+        }
+    }
 
     // 뷰 홀더 생성
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactAdapter.Holder {
-        val binding = ContactItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return Holder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == VIEW_TYPE_FAVORITE) {
+            // 즐겨찾기 아이템의 레이아웃 인플레이션
+            val AfBinding = ContactItemAfBinding.inflate(inflater, parent, false)
+            AfViewHolder(AfBinding)
+        } else {
+            // 일반 아이템의 레이아웃 인플레이션
+            val bfBinding = ContactItemBfBinding.inflate(inflater, parent, false)
+            BfViewHolder(bfBinding)
+        }
     }
 
     // 아이템 클릭 이벤트 인터페이스
@@ -33,48 +54,81 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
     var itemClick: ItemClick? = null  // 아이템 클릭 리스너
 
     // 뷰 홀더에 데이터 바인딩
-    override fun onBindViewHolder(holder: ContactAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = mItems[position] // 현재 위치의 아이템 가져오기
 
-        holder.img.setImageResource(item.aImg) // 프로필 이미지 설정
-        holder.name.text = item.aName // 이름 설정
-        holder.tel.text = item.aTel // 전화번호 설정
+        when (holder) {
+            is BfViewHolder -> {
+                Glide.with(context)
+                    .load(item.aImg)
+                    .into(holder.bfImg)
+                holder.bfName.text = item.aName
+                holder.bfTel.text = item.aTel
 
-        // 아이템 뷰 클릭 이벤트 처리
-        holder.call.setOnClickListener {
-            itemClick?.onClick(it, position) // 아이템 클릭 리스너 호출
+                holder.bfCall.setOnClickListener {
+                    itemClick?.onClick(it, position)
 
-            val phoneNumber = item.aTel // 해당 위치의 전화번호 가져오기
-            val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
-            // 권한이 있는지 확인
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.CALL_PHONE
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                // 이미 권한이 허용된 경우 바로 전화 걸기 동작 수행
-                context.startActivity(dialIntent)
-            } else {
-                // 권한이 없는 경우 권한 요청
-                ActivityCompat.requestPermissions(
-                    context as Activity, // 주의: context가 Activity 타입이어야 합니다.
-                    arrayOf(Manifest.permission.CALL_PHONE),
-                    CALL_PERMISSION_REQUEST_CODE
-                )
+                    val phoneNumber = item.aTel
+                    val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    if (ContextCompat.checkSelfPermission(
+                            context,
+                            Manifest.permission.CALL_PHONE
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        context.startActivity(dialIntent)
+                    } else {
+                        ActivityCompat.requestPermissions(
+                            context as Activity,
+                            arrayOf(Manifest.permission.CALL_PHONE),
+                            CALL_PERMISSION_REQUEST_CODE
+                        )
+                    }
+                }
+
+                holder.bfFavorite.setOnClickListener {
+                    item.aFavorite = !item.aFavorite
+                    notifyItemChanged(position)
+                }
+                if (!item.aFavorite) {
+                    holder.bfFavorite.setImageResource(R.drawable.ic_star_empty)
+                }
             }
-        }
 
-        // 즐겨찾기 아이콘 클릭 이벤트 처리
-        holder.favorite.setOnClickListener {
-            item.aFavorite = !item.aFavorite
-            notifyItemChanged(position)
-        }
+            is AfViewHolder -> {
+                holder.afFavorite.setOnClickListener {
+                    item.aFavorite = !item.aFavorite
+                    notifyItemChanged(position)
+                }
+                if (item.aFavorite) {
+                    holder.afFavorite.setImageResource(R.drawable.ic_star_filled)
+                }
 
-        // 즐겨찾기 상태에 따라 아이콘 변경
-        if (item.aFavorite) {
-            holder.favorite.setImageResource(R.drawable.ic_star_filled)
-        } else {
-            holder.favorite.setImageResource(R.drawable.ic_star_empty)
+                holder.afCall.setOnClickListener {
+                    itemClick?.onClick(it, position)
+
+                    val phoneNumber = item.aTel
+                    val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    if (ContextCompat.checkSelfPermission(
+                            context,
+                            Manifest.permission.CALL_PHONE
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        context.startActivity(dialIntent)
+                    } else {
+                        ActivityCompat.requestPermissions(
+                            context as Activity,
+                            arrayOf(Manifest.permission.CALL_PHONE),
+                            CALL_PERMISSION_REQUEST_CODE
+                        )
+                    }
+                }
+
+                holder.afName.text = item.aName
+                holder.afTel.text = item.aTel
+                Glide.with(context)
+                    .load(item.aImg)
+                    .into(holder.afImg)
+            }
         }
     }
 
@@ -84,11 +138,21 @@ class ContactAdapter(private val mItems: List<Contact>, internal val context: Co
     }
 
     // 뷰 홀더 클래스
-    inner class Holder(binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val img = binding.imgItem // 프로필 이미지 뷰
-        val name = binding.nameItem // 이름 텍스트뷰
-        val tel = binding.telItem // 전화번호 텍스트뷰
-        val call = binding.callItem // 전화 아이콘 이미지뷰
-        val favorite = binding.favoriteItem // 즐겨찾기 아이콘 이미지뷰
+    inner class BfViewHolder(binding: ContactItemBfBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val bfImg = binding.bfImgItem // 프로필 이미지 뷰
+        val bfName = binding.bfNameItem // 이름 텍스트뷰
+        val bfTel = binding.bfTelItem // 전화번호 텍스트뷰
+        val bfCall = binding.bfCallItem // 전화 아이콘 이미지뷰
+        val bfFavorite = binding.bfFavoriteItem // 즐겨찾기 아이콘 이미지뷰
+    }
+
+    inner class AfViewHolder(binding: ContactItemAfBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val afImg = binding.afImgItem // 프로필 이미지 뷰
+        val afName = binding.afNameItem // 이름 텍스트뷰
+        val afTel = binding.afTelItem // 전화번호 텍스트뷰
+        val afCall = binding.afCallItem // 전화 아이콘 이미지뷰
+        val afFavorite = binding.afFavoriteItem // 즐겨찾기 아이콘 이미지뷰
     }
 }
