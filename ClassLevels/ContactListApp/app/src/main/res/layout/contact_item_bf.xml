@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgItem"
+        android:id="@+id/bf_imgItem"
         android:layout_width="@dimen/img_size"
         android:layout_height="@dimen/img_size"
         android:layout_gravity="center"
@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nameItem"
+            android:id="@+id/bf_nameItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,7 +37,7 @@
             tools:ignore="NestedWeights" />
 
         <TextView
-            android:id="@+id/telItem"
+            android:id="@+id/bf_telItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/callItem"
+        android:id="@+id/bf_callItem"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_gravity="center"
@@ -61,7 +61,7 @@
 
 
     <ImageButton
-        android:id="@+id/favoriteItem"
+        android:id="@+id/bf_favoriteItem"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_gravity="center"
