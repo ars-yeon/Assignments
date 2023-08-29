@@ -6,14 +6,25 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgItem"
-        android:layout_width="@dimen/img_size"
-        android:layout_height="@dimen/img_size"
+    <ImageButton
+        android:id="@+id/af_favoriteItem"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_gravity="center"
-        android:padding="@dimen/img_padding"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_0" />
+        android:background="@color/white"
+        android:padding="@dimen/item_padding"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_star_empty" />
+
+    <ImageButton
+        android:id="@+id/af_callItem"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:padding="@dimen/item_padding"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_call" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -23,7 +34,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nameItem"
+            android:id="@+id/af_nameItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,7 +48,7 @@
             tools:ignore="NestedWeights" />
 
         <TextView
-            android:id="@+id/telItem"
+            android:id="@+id/af_telItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,25 +60,13 @@
             android:textSize="@dimen/list_item_text_size2" />
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/callItem"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/af_imgItem"
+        android:layout_width="@dimen/img_size"
+        android:layout_height="@dimen/img_size"
         android:layout_gravity="center"
-        android:background="@color/white"
-        android:padding="@dimen/item_padding"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_call" />
-
-
-    <ImageButton
-        android:id="@+id/favoriteItem"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
-        android:layout_gravity="center"
-        android:background="@color/white"
-        android:padding="@dimen/item_padding"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_star_empty" />
+        android:padding="@dimen/img_padding"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_0" />
 
 </LinearLayout>
