@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -19,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/main_dongName"
+            android:id="@+id/tv_dongName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -36,11 +37,11 @@
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_down_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/main_dongName"
+            app:layout_constraintStart_toEndOf="@+id/tv_dongName"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/main_notify"
+            android:id="@+id/iv_notify"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="20dp"
@@ -54,7 +55,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recyclerview"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/main_header" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/main_pageUp"
+        android:id="@+id/fb_pageup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
