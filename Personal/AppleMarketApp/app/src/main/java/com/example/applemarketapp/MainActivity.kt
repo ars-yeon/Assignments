@@ -2,11 +2,15 @@ package com.example.applemarketapp
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val dataList = mutableListOf<SaleItem>()
+    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,9 +162,26 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+        adapter.itemClick = object : ItemAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra(Constants.ITEM_INDEX, position)
+                intent.putExtra(Constants.ITEM_OBJECT, dataList[position])
+                activityResultLauncher.launch(intent)
+            }
+        }
+
         binding.ivNotify.setOnClickListener {
             notification()
         }
+
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == RESULT_OK) {
+                    val itemIndex = it.data?.getIntExtra("itemIndex", 0) as Int
+                    adapter.notifyItemChanged(itemIndex) // 아이템 갱신
+                }
+            }
     }
 
     @Deprecated("Deprecated in Java")
