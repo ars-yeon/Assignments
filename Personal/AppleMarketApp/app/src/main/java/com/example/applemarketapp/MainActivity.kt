@@ -9,11 +9,13 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AlphaAnimation
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarketapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -171,14 +173,71 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        /*adapter.itemLongClick = object : ItemAdapter.ItemLongClick {
+            override fun onLongClick(view: View, position: Int) {
+                val ad = AlertDialog.Builder(this@MainActivity)
+                ad.setIcon(R.mipmap.ic_launcher)
+                ad.setTitle("상품 삭제")
+                ad.setMessage("상품을 정말로 삭제하시겠습니까?")
+                ad.setPositiveButton("확인") { _, _ ->
+                    dataList.removeAt(position)
+                    adapter.notifyItemRemoved(position)
+                    adapter.notifyItemRangeChanged(position, dataList.size - position)
+                }
+                ad.setNegativeButton("취소") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                ad.show()
+            }
+        }*/
+
         binding.ivNotify.setOnClickListener {
             notification()
+        }
+
+        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 500 }
+        val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 500 }
+        var isTop = true
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!binding.recyclerView.canScrollVertically(-1)
+                    && newState == RecyclerView.SCROLL_STATE_IDLE
+                ) {
+                    binding.fbPageup.startAnimation(fadeOut)
+                    binding.fbPageup.visibility = View.GONE
+                    isTop = true
+                } else {
+                    if (isTop) {
+                        binding.fbPageup.visibility = View.VISIBLE
+                        binding.fbPageup.startAnimation(fadeIn)
+                        isTop = false
+                    }
+                }
+            }
+        })
+
+        binding.fbPageup.setOnClickListener {
+            binding.recyclerView.smoothScrollToPosition(0)
         }
 
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == RESULT_OK) {
                     val itemIndex = it.data?.getIntExtra("itemIndex", 0) as Int
+                    /*val isLike = it.data?.getBooleanExtra("isLike", false) as Boolean
+
+                    if (isLike) {
+                        dataList[itemIndex].isLike = true
+                        dataList[itemIndex].LikeCnt += 1
+                    } else {
+                        if (dataList[itemIndex].isLike) {
+                            dataList[itemIndex].isLike = false
+                            dataList[itemIndex].LikeCnt -= 1
+                        }
+                    }*/
+
                     adapter.notifyItemChanged(itemIndex) // 아이템 갱신
                 }
             }
