@@ -2,6 +2,7 @@ package com.example.applemarketapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.applemarketapp.databinding.ActivityMainBinding
 
@@ -149,5 +150,20 @@ class MainActivity : AppCompatActivity() {
         val adapter = ItemAdapter(dataList)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val ad = AlertDialog.Builder(this)
+        ad.setIcon(R.mipmap.ic_launcher)
+        ad.setTitle("종료")
+        ad.setMessage("정말 종료하시겠습니까?")
+        ad.setPositiveButton("확인") { _, _ ->
+            finish()
+        }
+        ad.setNegativeButton("취소") { dialog, _ ->
+            dialog.dismiss()
+        }
+        ad.show()
     }
 }
