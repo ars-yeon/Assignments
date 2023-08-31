@@ -44,6 +44,12 @@ class ItemAdapter(private val mItems: MutableList<SaleItem>) :
 
         holder.tvChat.text = mItems[position].ChatCnt.toString()
         holder.tvLike.text = mItems[position].LikeCnt.toString()
+
+        if (mItems[position].isLike) {
+            holder.ivLike.setImageResource(R.drawable.ic_heart_filled)
+        } else {
+            holder.ivLike.setImageResource(R.drawable.ic_heart_empty)
+        }
     }
 
     inner class Holder(binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -53,5 +59,6 @@ class ItemAdapter(private val mItems: MutableList<SaleItem>) :
         val tvPrice = binding.tvPrice
         val tvChat = binding.tvChat
         val tvLike = binding.tvLike
+        val ivLike = binding.ivLike
     }
 }
