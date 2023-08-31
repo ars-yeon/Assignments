@@ -1,16 +1,14 @@
 package com.example.applemarketapp
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.applemarketapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val dataList = mutableListOf<SaleItem>()
-    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,5 +145,9 @@ class MainActivity : AppCompatActivity() {
                 false
             )
         )
+
+        val adapter = ItemAdapter(dataList)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 }
