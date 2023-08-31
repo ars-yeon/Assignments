@@ -173,24 +173,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        /*adapter.itemLongClick = object : ItemAdapter.ItemLongClick {
-            override fun onLongClick(view: View, position: Int) {
-                val ad = AlertDialog.Builder(this@MainActivity)
-                ad.setIcon(R.mipmap.ic_launcher)
-                ad.setTitle("상품 삭제")
-                ad.setMessage("상품을 정말로 삭제하시겠습니까?")
-                ad.setPositiveButton("확인") { _, _ ->
-                    dataList.removeAt(position)
-                    adapter.notifyItemRemoved(position)
-                    adapter.notifyItemRangeChanged(position, dataList.size - position)
-                }
-                ad.setNegativeButton("취소") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                ad.show()
-            }
-        }*/
-
         binding.ivNotify.setOnClickListener {
             notification()
         }
@@ -226,7 +208,7 @@ class MainActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == RESULT_OK) {
                     val itemIndex = it.data?.getIntExtra("itemIndex", 0) as Int
-                    /*val isLike = it.data?.getBooleanExtra("isLike", false) as Boolean
+                    val isLike = it.data?.getBooleanExtra("isLike", false) as Boolean
 
                     if (isLike) {
                         dataList[itemIndex].isLike = true
@@ -236,8 +218,7 @@ class MainActivity : AppCompatActivity() {
                             dataList[itemIndex].isLike = false
                             dataList[itemIndex].LikeCnt -= 1
                         }
-                    }*/
-
+                    }
                     adapter.notifyItemChanged(itemIndex) // 아이템 갱신
                 }
             }
