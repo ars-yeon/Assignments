@@ -173,6 +173,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        adapter.itemLongClick = object : ItemAdapter.ItemLongClick {
+            override fun onLongClick(view: View, position: Int) {
+                val ad = AlertDialog.Builder(this@MainActivity)
+
+                ad.setIcon(R.mipmap.ic_launcher)
+                ad.setTitle("상품 삭제")
+                ad.setMessage("상품을 정말로 삭제하시겠습니까?")
+                ad.setPositiveButton("확인") { _, _ ->
+                    dataList.removeAt(position)
+                    adapter.notifyItemRemoved(position)
+                }
+                ad.setNegativeButton("취소") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                ad.show()
+            }
+        }
+
         binding.ivNotify.setOnClickListener {
             notification()
         }
@@ -245,7 +263,11 @@ class MainActivity : AppCompatActivity() {
 
         val channelId = "one-channel"
         val channelName = "My Channel One"
-        val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT).apply {
+        val channel = NotificationChannel(
+            channelId,
+            channelName,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
             description = "My Channel One Description"
             setShowBadge(true)
             val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

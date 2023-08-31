@@ -10,11 +10,17 @@ import java.text.DecimalFormat
 
 class ItemAdapter(private val mItems: MutableList<SaleItem>) :
     RecyclerView.Adapter<ItemAdapter.Holder>() {
+
     interface ItemClick {
         fun onClick(view: View, position: Int)
     }
 
+    interface ItemLongClick {
+        fun onLongClick(view: View, position: Int)
+    }
+
     var itemClick: ItemClick? = null
+    var itemLongClick: ItemLongClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -35,12 +41,17 @@ class ItemAdapter(private val mItems: MutableList<SaleItem>) :
             itemClick?.onClick(it, position)
         }
 
+        holder.itemView.setOnLongClickListener OnLongClickListener@{
+            itemLongClick?.onLongClick(it, position)
+            return@OnLongClickListener true
+        }
+
         holder.itemImg.setImageResource(mItems[position].Image)
         holder.tvTitle.text = mItems[position].ItemTitle
         holder.tvAddress.text = mItems[position].Address
 
         val price = mItems[position].Price
-        holder.tvPrice.text = DecimalFormat("#,###").format(price)+"원"
+        holder.tvPrice.text = DecimalFormat("#,###").format(price) + "원"
 
         holder.tvChat.text = mItems[position].ChatCnt.toString()
         holder.tvLike.text = mItems[position].LikeCnt.toString()
