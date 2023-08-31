@@ -1,13 +1,12 @@
 package com.example.applemarketapp
-
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import com.example.applemarketapp.databinding.ActivityDetailBinding
 import java.text.DecimalFormat
-
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
@@ -41,5 +40,22 @@ class DetailActivity : AppCompatActivity() {
         binding.tvItemContent.text = item?.ItemDetail
         binding.tvPrice.text = DecimalFormat("#,###").format(item?.Price) + "원"
         isLike = item?.isLike == true
+
+        binding.ivBack.setOnClickListener {
+            exit()
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        exit()
+    }
+    private fun exit() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("itemIndex", itemPosition)
+            putExtra("isLike", isLike)
+        }
+        setResult(RESULT_OK, intent)
+        if (!isFinishing) finish()
     }
 }
