@@ -2,6 +2,7 @@ package com.example.applemarketapp
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.applemarketapp.databinding.ItemBinding
@@ -9,6 +10,11 @@ import java.text.DecimalFormat
 
 class ItemAdapter(private val mItems: MutableList<SaleItem>) :
     RecyclerView.Adapter<ItemAdapter.Holder>() {
+    interface ItemClick {
+        fun onClick(view: View, position: Int)
+    }
+
+    var itemClick: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,6 +31,10 @@ class ItemAdapter(private val mItems: MutableList<SaleItem>) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.itemView.setOnClickListener {
+            itemClick?.onClick(it, position)
+        }
+
         holder.itemImg.setImageResource(mItems[position].Image)
         holder.tvTitle.text = mItems[position].ItemTitle
         holder.tvAddress.text = mItems[position].Address
