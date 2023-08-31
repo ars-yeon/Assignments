@@ -183,6 +183,7 @@ class MainActivity : AppCompatActivity() {
                 ad.setPositiveButton("확인") { _, _ ->
                     dataList.removeAt(position)
                     adapter.notifyItemRemoved(position)
+                    adapter.notifyItemRangeChanged(position, dataList.size - position)
                 }
                 ad.setNegativeButton("취소") { dialog, _ ->
                     dialog.dismiss()
