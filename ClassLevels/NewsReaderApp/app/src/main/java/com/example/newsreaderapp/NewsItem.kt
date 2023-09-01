@@ -7,6 +7,7 @@ import java.time.LocalDate
 @Parcelize
 data class NewsItem(
     val img: String,
+    val agency:String,
     val date: LocalDate,
     val title: String,
     val content: String,
