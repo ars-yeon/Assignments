@@ -10,7 +10,31 @@ object DummyData {
 
         dataList.add(
             NewsItem(
-                "R.drawable.sample_1",
+                R.drawable.sample_0,
+                "MK스포츠",
+                LocalDateTime.parse("2023-09-02T20:09:00", formatter),
+                "마레이의 이집트, 파리行 티켓 얻지 못해…아프리카 ‘1황’ 남수단, 첫 올림픽 출전 [농구월드컵]",
+                "‘이집트 왕자’ 아셈 마레이의 파리 꿈은 이뤄지지 못했다.\n" +
+                        "\n" +
+                        "이집트는 2일(한국시간) 필리핀 마닐라의 몰 오브 아시아 아레나에서 열린 뉴질랜드와의 2023 국제농구연맹(FIBA) 필리핀-일본-인도네시아 농구월드컵 순위결정전에서 접전 끝 86-88로 패배했다.\n" +
+                        "\n" +
+                        "이로써 이집트는 총 2승 3패를 기록했다. 2014년 스페인 대회 이후 무려 9년 만에 출전한 이집트. 1994년 캐나다 대회 이후 29년 만에 농구월드컵에서의 승리를 수확했다.\n" +
+                        "\n" + "이집트는 뉴질랜드전 패배로 2024 파리올림픽 티켓 경쟁에서 결국 밀리고 말았다. 남수단과 함께 2승 2패 동률을 이루고 있었던 상황. 남수단은 앙골라를 꺾은 반면 이집트는 뉴질랜드에 패하며 마지막 고비를 넘기지 못했다.\n" +
+                        "\n" +
+                        "유일한 KBL 리거 아셈 마레이는 5경기 평균 12.2점 8.0리바운드 1.0어시스트를 기록하며 분전했다. 에합 살레와 함께 트윈 에이스로 활약했다.\n" +
+                        "\n" +
+                        "이집트는 1988 서울올림픽 이후 36년 만에 올림픽 출전을 목표로 삼았다. 아쉽게도 한 끗이 모자라 남수단에 밀리고 말았다.\n" +
+                        "\n" + "한편 아프리카의 새로운 ‘1황’ 남수단은 앙골라와의 최종전에서 101-78로 승리하며 3승 2패, 아프리카 팀 중 가장 좋은 성적으로 파리올림픽 출전을 확정 지었다. 개최국 프랑스, 그리고 호주 다음으로 빠르게 본선 티켓을 얻었다.\n" +
+                        "\n" +
+                        "남수단은 호주 NBL 리그에서 활약 중인 선수들이 중심을 잡고 있다. 농구 팬들에게는 다소 생소하지만 갖춘 전력만큼은 유럽도 위협할 수준이다. NBA 출신 루올 뎅 수석코치 역시 남다른 리더십으로 조국의 성공을 이끌었다.\n" +
+                        "\n" +
+                        "남수단은 첫 농구월드컵 출전에서 첫 올림픽 출전이라는 큰 성과를 연달아 이뤄냈다. 4년 전 다수의 NBA 리거를 앞세웠던 나이지리아와는 다른 길을 걸으며 당당히 메가 이벤트에 연속으로 출전할 기회를 잡았다.\n",
+                false
+            )
+        )
+        dataList.add(
+            NewsItem(
+                R.drawable.sample_1,
                 "루키",
                 LocalDateTime.parse("2023-09-01T21:39:00", formatter),
                 "[23월드컵] 월드컵 첫 출전 팀의 돌풍, 디펜딩 챔피언까지 삼켰다... 4쿼터 역전쇼",
@@ -39,7 +63,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_2",
+                R.drawable.sample_2,
                 "점프볼",
                 LocalDateTime.parse("2023-09-02T00:53:00", formatter),
                 "[FIBA WC] 돈치치의 슬로베니아, FIBA 랭킹 3위 호주 격파",
@@ -79,7 +103,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_3",
+                R.drawable.sample_3,
                 "마니아타임즈",
                 LocalDateTime.parse("2023-09-01T10:50:00", formatter),
                 "댈러스 구단주 큐반 \"마리화나 너무 많이 피우는 선수는 트레이드해버리겠다\" 경고...\"팀에는 그들만의 문화가 있다!\"",
@@ -99,7 +123,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_0",
+                R.drawable.sample_4,
                 "바스켓코리아",
                 LocalDateTime.parse("2023-09-01T09:37:00", formatter),
                 "샬럿, 코비 시먼스 방출 … 백코트 정리",
@@ -133,7 +157,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_5",
+                R.drawable.sample_5,
                 "루키",
                 LocalDateTime.parse("2023-09-01T06:25:00", formatter),
                 "동국대 이학승의 당찬 포부 \"프로에서 꼭 살아남는 슈터가 되겠다\"",
@@ -162,7 +186,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_6",
+                R.drawable.sample_6,
                 "스타뉴스",
                 LocalDateTime.parse("2023-09-01T17:11:00", formatter),
                 "허웅·라건아 등 KCC 선수들 작별인사 \"전주 팬들 함성 잊지 않겠다\"",
@@ -188,7 +212,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_7",
+                R.drawable.sample_7,
                 "루키",
                 LocalDateTime.parse("2023-08-31T21:36:00", formatter),
                 "금빛 열정으로 가득한 AG 대표팀 양홍석의 목표",
@@ -220,7 +244,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_8",
+                R.drawable.sample_8,
                 "마이데일리",
                 LocalDateTime.parse("2023-08-30T10:20:00", formatter),
                 "KGC 정관장 스포츠단으로 변모, 남자농구단 정관장 레드부스터스로 새출발",
@@ -238,7 +262,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_9",
+                R.drawable.sample_9,
                 "스포츠경향",
                 LocalDateTime.parse("2023-08-30T10:15:00", formatter),
                 "휴스턴서 꽃 피우지 못한 유망주, 밀워키와 투웨이 계약 체결[오피셜]",
@@ -262,7 +286,7 @@ object DummyData {
         )
         dataList.add(
             NewsItem(
-                "R.drawable.sample_10",
+                R.drawable.sample_10,
                 "바스켓코리아",
                 LocalDateTime.parse("2023-08-29T20:11:00", formatter),
                 "‘성장통’ 겪고 있는 LG 이승우, “이제는 내가 변해야 한다”",
@@ -291,6 +315,6 @@ object DummyData {
             )
         )
 
-        return dataList.sortedBy { it.date }
+        return dataList.sortedByDescending { it.date }
     }
 }
