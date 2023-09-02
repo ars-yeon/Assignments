@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.NewsReaderApp" parent="Base.Theme.NewsReaderApp" />
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 </resources>
