@@ -37,17 +37,26 @@ class TitleFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        return view
-    }
+        adapter.itemClick = object : NewsAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                val clickedNewsItem = mItems[position]
+                val bundle = Bundle()
+                bundle.putInt(Constants.NEWS_INDEX, position)
+                bundle.putParcelable(Constants.NEWS_OBJECT, clickedNewsItem)
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TitleFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+                val detailFragment = DetailFragment.newInstance(clickedNewsItem)
+                detailFragment.arguments = bundle
+
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        detailFragment
+                    )
+                    .addToBackStack(null)
+                    .commit()
             }
+        }
+
+        return view
     }
 }
