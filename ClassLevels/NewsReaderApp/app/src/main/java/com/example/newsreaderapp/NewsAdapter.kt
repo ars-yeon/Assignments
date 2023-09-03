@@ -1,6 +1,7 @@
 package com.example.newsreaderapp
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -8,6 +9,13 @@ import com.example.newsreaderapp.databinding.TitleItemBinding
 
 
 class NewsAdapter(private val mItems: List<NewsItem>) : RecyclerView.Adapter<NewsAdapter.Holder>() {
+
+    interface ItemClick {
+        fun onClick(view: View, position: Int)
+    }
+
+    var itemClick: ItemClick? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = TitleItemBinding.inflate((LayoutInflater.from(parent.context)))
         return Holder(binding)
@@ -29,6 +37,11 @@ class NewsAdapter(private val mItems: List<NewsItem>) : RecyclerView.Adapter<New
         Glide.with(holder.itemView.context)
             .load(currentItem.img)
             .into(holder.newsImg) // ImageView에 이미지 표시
+
+        // 클릭 이벤트를 처리할 뷰에 클릭 리스너 설정
+        holder.itemView.setOnClickListener {
+            itemClick?.onClick(holder.itemView, position)
+        }
     }
 
     inner class Holder(binding: TitleItemBinding) : RecyclerView.ViewHolder(binding.root) {
