@@ -36,6 +36,9 @@ class SearchAdapter(private var items: MutableList<KakaoImage>) :
 
         holder.itemText.text = item.siteName
         holder.itemDate.text = item.datetime
+            .substringBeforeLast(".")
+            .replace("T", " ")
+            .substring(0, 16)
     }
 
     override fun getItemCount() = items.size
