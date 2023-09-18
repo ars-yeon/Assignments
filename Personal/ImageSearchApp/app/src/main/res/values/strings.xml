@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">ImageSearchApp</string>
+    <string name="app_name">Image Finder</string>
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="title_search">Search</string>
+    <string name="title_collection">Collection</string>
+    <string name="search_hint">검색어를 입력하세요.</string>
+    <string name="image_name">Image Name</string>
+    <string name="item_date">YYYY-MM-DD HH:MM</string>
 </resources>
