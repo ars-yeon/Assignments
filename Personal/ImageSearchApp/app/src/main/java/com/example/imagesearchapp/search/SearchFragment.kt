@@ -84,9 +84,10 @@ class SearchFragment : Fragment() {
                 if (response.isSuccessful) {
                     val body = response.body()
                     body?.let {
+                        val size = imageList.size
                         imageList.clear()
                         imageList.addAll(it.data)
-                        adapter.notifyDataSetChanged()
+                        adapter.notifyItemRangeInserted(size, it.data.size)
                         logApiResponse(it.data.size)
                     }
                 } else {
