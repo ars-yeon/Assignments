@@ -3,6 +3,7 @@ package com.example.imagesearchapp.search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -26,26 +27,51 @@ class SearchAdapter(private var items: MutableList<KakaoImage>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-
-        Glide.with(holder.itemView.context)
-            .load(item.thumbnailUrl)
-            .placeholder(R.drawable.gif_loading)
-            .error(R.drawable.img_notfound)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(holder.itemImage)
-
-        holder.itemText.text = item.siteName
-        holder.itemDate.text = item.datetime
-            .substringBeforeLast(".")
-            .replace("T", " ")
-            .substring(0, 16)
+        holder.bind(item)
     }
 
     override fun getItemCount() = items.size
 
     inner class ViewHolder(binding: RvItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val itemImage = binding.itemImg
-        val itemText = binding.itemName
-        val itemDate = binding.itemDate
+        private val itemImage = binding.itemImg
+        private val itemText = binding.itemName
+        private val itemDate = binding.itemDate
+        private val itemBookmark = binding.itemBookmark
+
+        init {
+            itemBookmark.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val clickedItem = items[position]
+                    clickedItem.isBookmarked = !clickedItem.isBookmarked
+                    notifyItemChanged(position)
+                }
+            }
+        }
+
+        fun bind(item: KakaoImage) {
+            Glide.with(itemView.context)
+                .load(item.thumbnailUrl)
+                .placeholder(R.drawable.gif_loading)
+                .error(R.drawable.img_notfound)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(itemImage)
+
+            itemText.text = item.siteName
+            itemDate.text = item.datetime
+                .substringBeforeLast(".")
+                .replace("T", " ")
+                .substring(0, 16)
+
+            clickBookmark(item.isBookmarked)
+        }
+
+        private fun clickBookmark(isBookmarked: Boolean) {
+            val bookmarkDrawable = if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_empty
+            val bookmarkColor = if (isBookmarked) R.color.violet else R.color.gray3
+
+            itemBookmark.setImageResource(bookmarkDrawable)
+            itemBookmark.setColorFilter(ContextCompat.getColor(itemView.context, bookmarkColor))
+        }
     }
 }
