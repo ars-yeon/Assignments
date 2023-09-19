@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".search.SearchFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -33,6 +32,9 @@
                     android:layout_marginStart="15dp"
                     android:background="@android:color/transparent"
                     android:hint="@string/search_hint"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="100sp"
                     android:imeOptions="actionSearch"
                     android:inputType="text|textCapSentences"
                     android:textColor="@color/gray4"
