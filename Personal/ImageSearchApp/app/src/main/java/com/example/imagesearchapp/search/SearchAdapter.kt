@@ -1,7 +1,6 @@
 package com.example.imagesearchapp.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -9,16 +8,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.imagesearchapp.R
 import com.example.imagesearchapp.data.KakaoImage
+import com.example.imagesearchapp.data.SharedViewModel
 import com.example.imagesearchapp.databinding.RvItemBinding
 
-class SearchAdapter(private var items: MutableList<KakaoImage>) :
+class SearchAdapter(private var items: MutableList<KakaoImage>, private val viewModel: SharedViewModel) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-
-    interface ItemClick {
-        fun onClick(view: View, position: Int)
-    }
-
-    var itemClick: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -45,6 +39,8 @@ class SearchAdapter(private var items: MutableList<KakaoImage>) :
                     val clickedItem = items[position]
                     clickedItem.isBookmarked = !clickedItem.isBookmarked
                     notifyItemChanged(position)
+
+                    viewModel.toggleBookmark(clickedItem)
                 }
             }
         }
@@ -57,16 +53,16 @@ class SearchAdapter(private var items: MutableList<KakaoImage>) :
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(itemImage)
 
-            itemText.text = item.siteName
+            itemText.text = "[Image] $item.siteName"
             itemDate.text = item.datetime
                 .substringBeforeLast(".")
                 .replace("T", " ")
                 .substring(0, 16)
 
-            clickBookmark(item.isBookmarked)
+            setBookmark(item.isBookmarked)
         }
 
-        private fun clickBookmark(isBookmarked: Boolean) {
+        private fun setBookmark(isBookmarked: Boolean) {
             val bookmarkDrawable = if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_empty
             val bookmarkColor = if (isBookmarked) R.color.violet else R.color.gray3
 
