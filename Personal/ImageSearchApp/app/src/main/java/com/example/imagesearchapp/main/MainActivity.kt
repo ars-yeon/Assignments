@@ -2,6 +2,7 @@ package com.example.imagesearchapp.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.viewpager2.widget.ViewPager2
 import com.example.imagesearchapp.R
 import com.example.imagesearchapp.databinding.MainActivityBinding
 
@@ -9,7 +10,7 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val viewPager by lazy { binding.fragmentContainer }
-    private val bottomNav by lazy {binding.bottomNavi}
+    private val bottomNav by lazy { binding.bottomNavi }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,16 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                when (position) {
+                    0 -> bottomNav.selectedItemId = R.id.navi_search
+                    1 -> bottomNav.selectedItemId = R.id.navi_collection
+                }
+            }
+        })
         bottomNav.selectedItemId = R.id.navi_search
     }
 }
