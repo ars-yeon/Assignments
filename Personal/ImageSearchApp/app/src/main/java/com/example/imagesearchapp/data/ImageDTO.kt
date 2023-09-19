@@ -13,8 +13,23 @@ data class KakaoImage(
     @SerializedName("doc_url")
     val docUrl: String,
     val datetime: String,
-    var isBookmarked: Boolean = false
-)
+    var isBookmarked: Boolean = false,
+    var collectionFragment: String = ""
+) {
+    val uniqueIdentifier: String
+        get() = thumbnailUrl
+
+    override fun hashCode(): Int {
+        return uniqueIdentifier.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is KakaoImage) return false
+
+        return uniqueIdentifier == other.uniqueIdentifier
+    }
+}
 
 data class KakaoImageList(
     @SerializedName("documents")
