@@ -53,8 +53,7 @@ class SearchFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        actionSearch(searchEv)
-        setButton(searchEv, btnSearch, btnDelete)
+        actionButton(searchEv, btnSearch, btnDelete)
         textWatcher(searchEv, btnDelete)
 
         return binding.root
@@ -92,7 +91,7 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun setButton(searchEv: EditText, btnSearch: ImageView, btnDelete: ImageView) {
+    private fun actionButton(searchEv: EditText, btnSearch: ImageView, btnDelete: ImageView) {
         btnSearch.setOnClickListener {
             val query = searchEv.text.toString().trim()
             if (query.isNotEmpty()) {
@@ -103,7 +102,23 @@ class SearchFragment : Fragment() {
             }
         }
 
-        btnDelete.setOnClickListener { searchEv.text.clear() }
+        btnDelete.setOnClickListener {
+            searchEv.text.clear()
+        }
+
+        searchEv.setOnEditorActionListener { _, actionId, _ ->
+            val query = searchEv.text.toString().trim()
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (query.isNotEmpty()) {
+                    setSearch(query)
+                    hideKeyboardInput(searchEv)
+                } else {
+                    showEmptyQueryAlert()
+                }
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
     }
 
     private fun textWatcher(searchEv: EditText, btnDelete: ImageView) {
@@ -135,18 +150,6 @@ class SearchFragment : Fragment() {
             .setMessage("검색어를 입력하세요.")
             .setPositiveButton("확인", null)
             .show()
-    }
-
-    private fun actionSearch(searchEv: EditText) {
-        searchEv.setOnEditorActionListener { _, actionId, _ ->
-            val query = searchEv.text.toString().trim()
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                setSearch(query)
-                return@setOnEditorActionListener true
-            } else {
-                return@setOnEditorActionListener false
-            }
-        }
     }
 
     private fun logApiResponse(dataSize: Int) {
