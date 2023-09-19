@@ -61,7 +61,7 @@ class CollectionAdapter(private val viewModel: SharedViewModel) :
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(itemImage)
 
-            itemText.text = item.siteName
+            itemText.text = "[Image]" + item.siteName
             itemDate.text = item.datetime
                 .substringBeforeLast(".")
                 .replace("T", " ")
