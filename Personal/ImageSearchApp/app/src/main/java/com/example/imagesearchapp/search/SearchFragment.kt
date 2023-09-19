@@ -141,7 +141,7 @@ class SearchFragment : Fragment() {
         searchEv.setOnEditorActionListener { _, actionId, _ ->
             val query = searchEv.text.toString().trim()
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.searchImage(query)
+                setSearch(query)
                 return@setOnEditorActionListener true
             } else {
                 return@setOnEditorActionListener false
