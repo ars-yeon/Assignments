@@ -39,9 +39,9 @@ class SharedViewModel: ViewModel() {
         val updatedItems  = currentItems.toMutableSet()
 
         if (item in updatedItems ) {
-            updatedItems .remove(item)
+            updatedItems.remove(item)
         } else {
-            updatedItems .add(item)
+            updatedItems.add(item)
         }
 
         _bookmarkedItems.value = updatedItems
