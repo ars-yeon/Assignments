@@ -12,7 +12,8 @@ data class KakaoImage(
     val siteName: String,
     @SerializedName("doc_url")
     val docUrl: String,
-    val datetime: String
+    val datetime: String,
+    var isBookmarked: Boolean = false
 )
 
 data class KakaoImageList(
