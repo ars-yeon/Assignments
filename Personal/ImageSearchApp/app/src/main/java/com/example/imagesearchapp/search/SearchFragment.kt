@@ -12,15 +12,15 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.imagesearchapp.data.KakaoImage
 import com.example.imagesearchapp.data.KakaoImageList
 import com.example.imagesearchapp.databinding.SearchFragmentBinding
-import com.example.imagesearchapp.data.ViewModel
+import com.example.imagesearchapp.data.SharedViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,9 +29,10 @@ class SearchFragment : Fragment() {
 
     private var _binding: SearchFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: ViewModel
-    private val imageList = mutableListOf<KakaoImage>()
+    private lateinit var viewModel: SharedViewModel
+    private val searchItems = mutableListOf<KakaoImage>()
     private lateinit var adapter: SearchAdapter
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,36 +44,22 @@ class SearchFragment : Fragment() {
         val btnSearch = binding.searchIcSearch
         val btnDelete = binding.searchIcDelete
 
-        adapter = SearchAdapter(imageList)
+        viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
+        adapter = SearchAdapter(searchItems, viewModel)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-
-        viewModel = ViewModelProvider(requireActivity())[ViewModel::class.java]
 
         actionSearch(searchEv)
         setButton(searchEv, btnSearch, btnDelete)
         textWatcher(searchEv, btnDelete)
-        itemClickListener()
+
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun itemClickListener() {
-        adapter.itemClick = object : SearchAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                val clickedItem = imageList[position]
-                Log.d("###", "이미지 클릭  position: $position")
-
-                val selectedItems = viewModel.selectedItem.value?.toMutableList() ?: mutableListOf()
-                selectedItems.add(clickedItem)
-                viewModel.selectedItem.value = selectedItems
-                showToast("Picked!")
-            }
-        }
     }
 
     private fun setSearch(query: String) {
@@ -84,8 +71,8 @@ class SearchFragment : Fragment() {
                 if (response.isSuccessful) {
                     val body = response.body()
                     body?.let {
-                        imageList.clear()
-                        imageList.addAll(it.data)
+                        searchItems.clear()
+                        searchItems.addAll(it.data)
                         adapter.notifyDataSetChanged()
                         logApiResponse(it.data.size)
                     }
@@ -167,9 +154,5 @@ class SearchFragment : Fragment() {
 
     private fun logApiFailure() {
         Log.e("###", "API 요청 실패")
-    }
-
-    fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
