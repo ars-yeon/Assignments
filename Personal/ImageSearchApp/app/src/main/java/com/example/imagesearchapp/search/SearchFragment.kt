@@ -15,7 +15,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearchapp.data.KakaoImage
@@ -30,12 +29,10 @@ class SearchFragment : Fragment() {
 
     private var _binding: SearchFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: SharedViewModel
     private val searchItems = mutableListOf<KakaoImage>()
     private lateinit var adapter: SearchAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +44,7 @@ class SearchFragment : Fragment() {
         val btnSearch = binding.searchIcSearch
         val btnDelete = binding.searchIcDelete
 
-        viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-
-        adapter = SearchAdapter(searchItems, viewModel)
+        adapter = SearchAdapter(searchItems, sharedViewModel)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
@@ -65,7 +60,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setSearch(query: String) {
-        viewModel.searchImage(query).enqueue(object : Callback<KakaoImageList> {
+        sharedViewModel.searchImage(query).enqueue(object : Callback<KakaoImageList> {
             override fun onResponse(
                 call: Call<KakaoImageList>,
                 response: Response<KakaoImageList>
