@@ -2,8 +2,10 @@ package com.example.imagesearchapp.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.imagesearchapp.R
+import com.example.imagesearchapp.data.SharedViewModel
 import com.example.imagesearchapp.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val viewPager by lazy { binding.fragmentContainer }
     private val bottomNav by lazy { binding.bottomNavi }
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
