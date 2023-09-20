@@ -1,6 +1,7 @@
 package com.example.imagesearchapp.search
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,6 +34,8 @@ class SearchFragment : Fragment() {
     private lateinit var adapter: SearchAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var recyclerView: RecyclerView
+    private val sharedPreferences: SharedPreferences by lazy { requireContext().getSharedPreferences("search_prefs", Context.MODE_PRIVATE) }
+    private lateinit var searchEv: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,7 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = SearchFragmentBinding.inflate(inflater, container, false)
         recyclerView = binding.searchRv
-        val searchEv = binding.searchEv
+        searchEv = binding.searchEv
         val btnSearch = binding.searchIcSearch
         val btnDelete = binding.searchIcDelete
 
@@ -52,6 +55,11 @@ class SearchFragment : Fragment() {
         textWatcher(searchEv, btnDelete)
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadData()
     }
 
     override fun onDestroyView() {
@@ -92,6 +100,7 @@ class SearchFragment : Fragment() {
             if (query.isNotEmpty()) {
                 setSearch(query)
                 hideKeyboardInput(searchEv)
+                saveData(query)
             } else {
                 showEmptyQueryAlert()
             }
@@ -107,6 +116,7 @@ class SearchFragment : Fragment() {
                 if (query.isNotEmpty()) {
                     setSearch(query)
                     hideKeyboardInput(searchEv)
+                    saveData(query)
                 } else {
                     showEmptyQueryAlert()
                 }
@@ -145,6 +155,18 @@ class SearchFragment : Fragment() {
             .setMessage("검색어를 입력하세요.")
             .setPositiveButton("확인", null)
             .show()
+    }
+
+    private fun saveData(query: String) {
+        val pref = requireContext().getSharedPreferences("pref", 0)
+        val edit = pref.edit()
+        edit.putString("last_query", query)
+        edit.apply()
+    }
+
+    private fun loadData() {
+        val pref = requireContext().getSharedPreferences("pref", 0)
+        searchEv.setText(pref.getString("last_query", ""))
     }
 
     private fun logApiResponse(dataSize: Int) {
