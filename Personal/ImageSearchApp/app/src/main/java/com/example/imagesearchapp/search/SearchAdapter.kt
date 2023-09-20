@@ -14,6 +14,15 @@ import com.example.imagesearchapp.databinding.RvItemBinding
 class SearchAdapter(private var items: MutableList<KakaoImage>, private val viewModel: SharedViewModel) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
+    private var bookmarkedItems: Set<KakaoImage> = emptySet()
+
+    init {
+        viewModel.bookmarkedItems.observeForever { items ->
+            bookmarkedItems = items
+            notifyDataSetChanged()
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
