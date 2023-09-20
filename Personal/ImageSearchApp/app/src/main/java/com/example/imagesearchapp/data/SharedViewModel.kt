@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
 
-class SharedViewModel: ViewModel() {
+class SharedViewModel : ViewModel() {
     private val networkManager = NetworkManager()
 
     fun searchImage(query: String): Call<KakaoImageList> {
@@ -17,20 +17,15 @@ class SharedViewModel: ViewModel() {
     val bookmarkedItems: LiveData<Set<KakaoImage>> = _bookmarkedItems
 
     fun toggleBookmark(item: KakaoImage) {
-        val currentItems  = bookmarkedItems.value ?: setOf()
-        val updatedItems  = currentItems.toMutableSet()
+        val currentItems = _bookmarkedItems.value?.toMutableSet() ?: mutableSetOf()
 
-        if (item in updatedItems ) {
-            updatedItems.remove(item)
-        } else {
-            updatedItems.add(item)
-        }
+        if (item in currentItems) currentItems.remove(item)
+        else currentItems.add(item)
 
-        _bookmarkedItems.value = updatedItems
+        _bookmarkedItems.value = currentItems.toSet()
     }
 
     init {
-        // 북마크 아이템이 추가/제거될 때 로그 출력
         bookmarkedItems.observeForever { items ->
             Log.d("SharedViewModel", "Bookmarked items: ${items.size}개, $items")
         }
