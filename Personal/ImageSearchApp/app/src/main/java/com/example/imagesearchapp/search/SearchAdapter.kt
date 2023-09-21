@@ -16,6 +16,11 @@ class SearchAdapter(private var items: MutableList<KakaoImage>, private val view
 
     private var bookmarkedItems: Set<KakaoImage> = emptySet()
 
+    fun updateBookmarkedItems(newBookmarkedItems: Set<KakaoImage>) {
+        bookmarkedItems = newBookmarkedItems
+        notifyDataSetChanged()
+    }
+
     init {
         viewModel.bookmarkedItems.observeForever { items ->
             bookmarkedItems = items
@@ -49,7 +54,7 @@ class SearchAdapter(private var items: MutableList<KakaoImage>, private val view
                     clickedItem.isBookmarked = !clickedItem.isBookmarked
                     notifyItemChanged(position)
 
-                    viewModel.toggleBookmark(clickedItem)
+                    viewModel.toggleBookmark(itemView.context, clickedItem)
                 }
             }
         }
