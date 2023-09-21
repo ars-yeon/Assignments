@@ -38,6 +38,11 @@ class CollectionFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        sharedViewModel.loadBookmarks(requireContext())
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
