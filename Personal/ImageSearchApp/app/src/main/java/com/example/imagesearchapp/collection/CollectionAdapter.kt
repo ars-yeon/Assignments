@@ -48,7 +48,7 @@ class CollectionAdapter(private val viewModel: SharedViewModel) :
                     clickedItem.isBookmarked = !clickedItem.isBookmarked
                     notifyItemChanged(position)
 
-                    viewModel.toggleBookmark(clickedItem)
+                    viewModel.toggleBookmark(itemView.context, clickedItem)
                 }
             }
         }
@@ -61,7 +61,7 @@ class CollectionAdapter(private val viewModel: SharedViewModel) :
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(itemImage)
 
-            itemText.text = "[Image]" + item.siteName
+            itemText.text = "[Image] " + item.siteName
             itemDate.text = item.datetime
                 .substringBeforeLast(".")
                 .replace("T", " ")
