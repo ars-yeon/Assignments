@@ -16,6 +16,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearchapp.data.KakaoImage
@@ -55,6 +56,14 @@ class SearchFragment : Fragment() {
         textWatcher(searchEv, btnDelete)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sharedViewModel.bookmarkedItems.observe(viewLifecycleOwner, Observer { bookmarkedItems ->
+            adapter.updateBookmarkedItems(bookmarkedItems)
+        })
     }
 
     override fun onResume() {
