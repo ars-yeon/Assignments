@@ -67,7 +67,7 @@ class SearchAdapter(private var items: MutableList<KakaoImage>, private val view
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(itemImage)
 
-            itemText.text = "[Image]" + item.siteName
+            itemText.text = "[Image] " + item.siteName
             itemDate.text = item.datetime
                 .substringBeforeLast(".")
                 .replace("T", " ")
