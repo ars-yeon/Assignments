@@ -4,12 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.lifecycle.Constants.sub
+import com.example.lifecycle.databinding.ActivitySubBinding
 
 class SubActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivitySubBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sub)
+        setContentView(binding.root)
+
         Log.d(sub, "onCreate called")
+
+        val btnBack = binding.btnBack
+        btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onStart() {
