@@ -7,8 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.lifecycle.Constants.frag
+import com.example.lifecycle.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
+
+    private var _binding: FragmentFirstBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(frag, "onCreate called")
@@ -17,9 +22,17 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
         Log.d(frag, "onCreateView called")
-        return inflater.inflate(R.layout.fragment_first, container, false)
+
+        val btnBack = binding.btnBack
+        btnBack.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        }
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
